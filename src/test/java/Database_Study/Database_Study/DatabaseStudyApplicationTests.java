@@ -23,7 +23,6 @@ public class DatabaseStudyApplicationTests {
 
 	private final UserRepository userRepository;
 
-
 	public void init() {
 		User user = User.builder()
 				.create_date(new Date(250227))
@@ -44,14 +43,6 @@ public class DatabaseStudyApplicationTests {
 				.name("name")
 				.build();
 
-		User saveUser = userRepository.save(user);
-
-		saveUser.setEmail("transactional@email.com");
-
-		List<User> userByEmail = userRepository.findUserByEmail("transactional@email.com");
-
-		for (User findUser : userByEmail) {
-			log.info(findUser.getEmail());
-		}
+		log.info(user.toString());
 	}
 }

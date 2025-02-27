@@ -1,13 +1,13 @@
 package Database_Study.Database_Study.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Data @Entity @NoArgsConstructor
+@Builder
+@Entity @AllArgsConstructor @NoArgsConstructor
+@ToString
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,13 +20,4 @@ public class User {
     private int age;
 
     private String email;
-
-    @Builder
-    public User (Date create_date, String name, int age, String email) {
-        this.create_date = create_date;
-        this.name = name;
-        this.age = age;
-        this.email = email;
-    }
-
 }
