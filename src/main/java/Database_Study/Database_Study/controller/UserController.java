@@ -4,6 +4,7 @@ import Database_Study.Database_Study.Repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class UserController {
     private UserRepository userRepository;
 
 
-    @GetMapping ("/")
+    @GetMapping ("/login-cookie")
     public String login (HttpServletRequest req, HttpServletResponse resp) {
         Cookie cookie = new Cookie("username", req.getParameter("username"));
         cookie.setDomain("localhost");
@@ -29,12 +30,26 @@ public class UserController {
         return "ok";
     }
 
-    @GetMapping ("/logout")
+    @GetMapping ("/logout-cookie")
     public String logout(HttpServletRequest req, HttpServletResponse resp) {
-
         Cookie cookie = new Cookie("username", "");
         cookie.setMaxAge(0);
         resp.addCookie(cookie);
+        return "logout";
+    }
+
+    @GetMapping("/login-session")
+    public String loginSession(HttpServletRequest req, HttpServletResponse resp) {
+        HttpSession session = req.getSession(true);
+        session.setAttribute("username", req.getParameter("username"));
+        session.setMaxInactiveInterval(3600);
+        return "login";
+    }
+
+    @GetMapping("/logout-session")
+    public String  logoutSession(HttpServletRequest req, HttpServletResponse resp) {
+        HttpSession session = req.getSession(false);
+        session.invalidate();
         return "logout";
     }
 
