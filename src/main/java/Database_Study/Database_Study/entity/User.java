@@ -3,11 +3,13 @@ package Database_Study.Database_Study.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Data @Entity @NoArgsConstructor
+
+@Getter @Entity @NoArgsConstructor
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
