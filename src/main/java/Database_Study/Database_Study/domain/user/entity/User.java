@@ -1,13 +1,12 @@
-package Database_Study.Database_Study.entity;
+package Database_Study.Database_Study.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
 
-@Builder @ToString
+@Builder
 @Entity @AllArgsConstructor @NoArgsConstructor
-@EqualsAndHashCode
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,9 +14,11 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date create_date;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String userId;
+    private String password;
 
-    private int age;
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 
-    private String email;
 }

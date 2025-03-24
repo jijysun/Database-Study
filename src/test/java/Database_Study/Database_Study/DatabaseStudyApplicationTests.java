@@ -1,19 +1,15 @@
 package Database_Study.Database_Study;
 
-import Database_Study.Database_Study.Repository.UserRepository;
-import Database_Study.Database_Study.entity.User;
-import jakarta.annotation.PostConstruct;
+import Database_Study.Database_Study.domain.user.Repository.UserRepository;
+import Database_Study.Database_Study.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestConstructor;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 @SpringBootTest
 @Slf4j
