@@ -12,19 +12,9 @@ import java.util.Date;
 
 @Service @RequiredArgsConstructor
 public class UserService {
-
-
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public void testService() {
-        User user = User.builder()
-                .userId("test")
-                .create_date(new Date(250228))
-                .build();
-
-    }
 
     public void signUpService(SignUpDto signUpDto) {
 
