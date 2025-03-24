@@ -17,5 +17,7 @@ public class UserService {
                 .email("test@test.com")
                 .create_date(new Date(250228))
                 .build();
+
+        user.
     }
 }

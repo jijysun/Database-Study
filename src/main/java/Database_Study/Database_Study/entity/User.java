@@ -5,9 +5,9 @@ import lombok.*;
 
 import java.util.Date;
 
-@Builder
+@Builder @ToString
 @Entity @AllArgsConstructor @NoArgsConstructor
-@ToString
+@EqualsAndHashCode
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
