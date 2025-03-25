@@ -16,7 +16,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/", "/login", "/loginProcess").permitAll() // 메인 및 로그인 페이지는 접근 허용
+                .requestMatchers("/", "/login", "/loginProcess", "/register").permitAll() // 메인 및 로그인 페이지는 접근 허용
                 .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한을 갖는 사용자만 /admin 접근 허용
                 .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 이 중에서 1개 이상의 권한을 갖으면 OK
                 .anyRequest().authenticated() // 모든 req 에 인증된 사용자만 접근 허용

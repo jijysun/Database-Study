@@ -27,5 +27,11 @@ public class UserController {
     @PostMapping("/login")
     public String login (SignUpDto signUpDto, Model model) {
         userService.signUpService(signUpDto);
+        return "redirect:/";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
     }
 }
