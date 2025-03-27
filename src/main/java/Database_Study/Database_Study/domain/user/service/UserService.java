@@ -2,7 +2,7 @@ package Database_Study.Database_Study.domain.user.service;
 
 import Database_Study.Database_Study.domain.user.Repository.UserRepository;
 import Database_Study.Database_Study.domain.user.dto.SignUpDto;
-import Database_Study.Database_Study.domain.user.entity.Grade;
+import Database_Study.Database_Study.domain.user.entity.Role;
 import Database_Study.Database_Study.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +28,11 @@ public class UserService {
         }
 
         User user = User.builder()
-                .userId(signUpDto.getId())
+//                .userId(signUpDto.getId())
                 .email(signUpDto.getEmail())
                 .create_date(new Date())
                 .password(bCryptPasswordEncoder.encode(signUpDto.getPassword()))
-                .grade(Grade.USER)
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user);

@@ -1,5 +1,7 @@
 package Database_Study.Database_Study.global.configuration.security.filter;
 
+import Database_Study.Database_Study.domain.user.dto.CustomUserDetails;
+import Database_Study.Database_Study.global.configuration.security.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,14 +11,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 @RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtTokenUtil;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -33,12 +39,23 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override // 검증, 로그인 성공 시 호출될 메소드
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        CustomUserDetails customUserDetails =  (CustomUserDetails) authResult.getPrincipal();
+        // JWT 에 담을 정보 가지고 오기
 
-        // JWT 발급하기!
+        String username = customUserDetails.getUsername();
+
+        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+        GrantedAuthority next = iterator.next();
+        String role = next.getAuthority();
+
+        // JWT 발급!
+        String newToken = jwtTokenUtil.createToken(username, role, 60*60*10L);
+        response.setHeader("Authorization", "Bearer " + newToken);
     }
 
     @Override // 검증, 로그인 실패 시 호출될 메소드
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

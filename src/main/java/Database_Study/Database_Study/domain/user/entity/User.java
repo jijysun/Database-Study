@@ -7,7 +7,7 @@ import lombok.*;
 
 import java.util.Date;
 
-@Builder
+@Builder @Getter
 @Entity @AllArgsConstructor @NoArgsConstructor
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,14 +16,15 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date create_date;
 
-    @Column(unique = true, nullable = false)
-    private String userId;
-    private String password;
-
-    @Email @NotBlank
     private String email;
 
+    private String password;
+
+    private String username;
+
+
+
     @Enumerated(EnumType.STRING)
-    private Grade grade;
+    private Role role;
 
 }

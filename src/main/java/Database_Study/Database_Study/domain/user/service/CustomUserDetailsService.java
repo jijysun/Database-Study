@@ -1,6 +1,7 @@
 package Database_Study.Database_Study.domain.user.service;
 
 import Database_Study.Database_Study.domain.user.Repository.UserRepository;
+import Database_Study.Database_Study.domain.user.dto.CustomUserDetails;
 import Database_Study.Database_Study.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> userByEmail = userRepository.findUserByEmail(email);
 
         if (userByEmail.isPresent()) {
-            
+            return new CustomUserDetails(userByEmail.get());
         }
 
         return null;

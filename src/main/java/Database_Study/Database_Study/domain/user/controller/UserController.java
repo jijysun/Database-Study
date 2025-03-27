@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller @RequiredArgsConstructor
 public class UserController {
@@ -20,7 +19,7 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         return "index";
     }
 
@@ -41,7 +40,7 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping
+    @PostMapping ("/register")
     public String register (SignUpDto signUpDto, Model model) {
         userService.signUpService(signUpDto);
         return "redirect:/";

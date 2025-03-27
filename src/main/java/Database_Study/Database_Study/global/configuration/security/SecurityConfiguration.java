@@ -2,6 +2,7 @@ package Database_Study.Database_Study.global.configuration.security;
 
 
 import Database_Study.Database_Study.global.configuration.security.filter.LoginFilter;
+import Database_Study.Database_Study.global.configuration.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtUtil jwtTokenUtil;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -47,7 +49,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // 구현 필터 등록, 설정 정보도 넘겨줌
-        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
+        // AuthenticationManager 와 JwtUtil을 넘기기
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
