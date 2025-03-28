@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,13 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @RequiredArgsConstructor
+@Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+
+    /*
+    *
+    *
+    * */
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtTokenUtil;
@@ -31,8 +38,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
+        log.info("username={} password={}", username, password);
+
         // token에 username, password 담아서 검증
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password, null);
 
         return authenticationManager.authenticate(authenticationToken); // 검증해주세요!!!
     }

@@ -28,7 +28,7 @@ public class UserService {
         }
 
         User user = User.builder()
-//                .userId(signUpDto.getId())
+                .username(signUpDto.getUsername())
                 .email(signUpDto.getEmail())
                 .create_date(new Date())
                 .password(bCryptPasswordEncoder.encode(signUpDto.getPassword()))

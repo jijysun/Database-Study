@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login (SignUpDto signUpDto, Model model) {
+    public String login (SignUpDto signUpDto) {
         userService.signUpService(signUpDto);
         return "redirect:/";
     }
@@ -41,8 +41,13 @@ public class UserController {
     }
 
     @PostMapping ("/register")
-    public String register (SignUpDto signUpDto, Model model) {
+    public String register (SignUpDto signUpDto) {
         userService.signUpService(signUpDto);
         return "redirect:/";
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
     }
 }
