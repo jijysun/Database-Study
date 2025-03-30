@@ -32,7 +32,7 @@ public class UserService {
                 .email(signUpDto.getEmail())
                 .create_date(new Date())
                 .password(bCryptPasswordEncoder.encode(signUpDto.getPassword()))
-                .role(Role.USER)
+                .role("ROLE_ADMIN")
                 .build();
 
         userRepository.save(user);

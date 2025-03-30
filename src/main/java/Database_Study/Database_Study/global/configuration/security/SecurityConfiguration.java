@@ -1,6 +1,7 @@
 package Database_Study.Database_Study.global.configuration.security;
 
 
+import Database_Study.Database_Study.global.configuration.security.filter.JwtFilter;
 import Database_Study.Database_Study.global.configuration.security.filter.LoginFilter;
 import Database_Study.Database_Study.global.configuration.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/", "/login", "/loginProcess", "/register").permitAll() // 메인 및 로그인 페이지는 접근 허용
                 .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한을 갖는 사용자만 /admin 접근 허용
-                .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 이 중에서 1개 이상의 권한을 갖으면 OK
+                .requestMatchers("/my/**", "/test").hasAnyRole("ADMIN", "USER") // 이 중에서 1개 이상의 권한을 갖으면 OK
                 .anyRequest().authenticated() // 모든 req 에 인증된 사용자만 접근 허용
         );
 
@@ -48,9 +49,13 @@ public class SecurityConfiguration {
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+
+        http.addFilterAt(new JwtFilter(jwtTokenUtil), LoginFilter.class);
+
         // 구현 필터 등록, 설정 정보도 넘겨줌
         // AuthenticationManager 와 JwtUtil을 넘기기
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }

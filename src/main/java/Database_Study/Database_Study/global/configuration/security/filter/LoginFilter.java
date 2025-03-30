@@ -23,17 +23,12 @@ import java.util.Iterator;
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    /*
-    *
-    *
-    * */
-
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtTokenUtil;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        
+
         // 요청에서 각 정보 추출
         String username = obtainUsername(request);
         String password = obtainPassword(request);
@@ -51,7 +46,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         CustomUserDetails customUserDetails =  (CustomUserDetails) authResult.getPrincipal();
         // JWT 에 담을 정보 가지고 오기
 
-        String username = customUserDetails.getUsername();
+        String username = customUserDetails.getEmail();
 
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -60,7 +55,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // JWT 발급!
         String newToken = jwtTokenUtil.createToken(username, role, 60*60*10L);
-        response.setHeader("Authorization", "Bearer " + newToken);
+        response.addHeader("Authorization", "Bearer " + newToken);
     }
 
     @Override // 검증, 로그인 실패 시 호출될 메소드
